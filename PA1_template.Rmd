@@ -1,5 +1,5 @@
 ---
-title: "Reproducible Research Week 2 Project"
+title: "Reproducible Research: Peer Assessment 1"
 author: "Suzette Lizamore"
 date: "24 June 2017"
 output: html_document
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Course Project 1: Activity Monitoring
 
-## Loading and preprocessing data
+## Loading and preprocessing the data
 Read in the data set which should be located in the working directory
 
 
@@ -21,7 +21,7 @@ summary(activity)
 
 ```
 
-## Calculate the mean number of total steps taken per day
+## What is the mean total number of steps taken per day?
 
 ```{r}
 ## 1. Calculate the number os steps taken per day
@@ -33,20 +33,43 @@ cat(c("The mean steps per day is", round(mean(TotSteps),digits=4)))
 cat(c("The median steps per day is", round(median(TotSteps),digits=4)))
 ```
 
-## What is the average daily pattern?
+## What is the average daily activity pattern?
 
 ```{r}
 ## 1. Create a time series plot of the average daily activity pattern
 activity$interval <- as.factor(activity$interval)
 InAvSteps <- with(activity,tapply(steps,interval,sum,na.rm=TRUE))
-plot(names(InAvSteps),InAvSteps,type="l",main="Average daily step pattern",xlab="Time of Day",ylab="Average number of steps")
+plot(names(InAvSteps),InAvSteps,type="l",main="Average daily step pattern",
+     xlab="Time of Day",ylab="Average number of steps")
 ## 2. Which five minute interval contains the maximum number of steps
-cat(c("The interval with the maximum number of steps is",names(InAvSteps[InAvSteps==max(InAvSteps)]), "with", max(InAvSteps),"steps"))
+cat(c("The interval with the maximum number of steps is",
+      names(InAvSteps[InAvSteps==max(InAvSteps)]), "with", max(InAvSteps),"steps"))
 ```
 
 ## Imputing missing values
 
 ```{r}
 ## 1. Calculate and report the number of missing values in the dataset.
+sum(is.na(activity))
+## 2. Devise a strategy for filling in the missing data
+int.means <- ave(activity$steps,activity$interval,FUN = function(x) mean(x[!is.na(x)]))
+## 3. Create a data set that is equal to the original but with missing data filled in 
+activity.complete <- activity
+missing <- is.na(activity$steps)
+activity.complete$steps[missing] <- int.means[missing]
+## 4. Plot Histogram
+TotStepsComp <- with(activity.complete,tapply(steps,date,sum,na.rm=TRUE))
+hist(TotStepsComp, main = "Histogram of total steps taken per day (imputed values)",xlab = "Number of Steps")
+## 5. Report mean and median
+cat(c("The mean steps per day is", round(mean(TotStepsComp),digits=4)))
+cat(c("The median steps per day is", round(median(TotStepsComp),digits=4)))
+
 
 ```
+
+
+## Are there differences in activity patterns between weekdays and weekends?
+
+
+
+
