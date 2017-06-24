@@ -69,6 +69,8 @@ cat(c("The interval with the maximum number of steps is",
 
 ## Imputing missing values
 
+1. Calculate and report the number of missing values in the dataset
+
 
 ```r
 ## 1. Calculate and report the number of missing values in the dataset.
@@ -78,6 +80,13 @@ sum(is.na(activity))
 ```
 ## [1] 2304
 ```
+
+The strategy for imputing missing values is to calculate the average value
+for each separate interval of the day (excluding missing values), and to use 
+this series of averages to replace any missing values for the relevant
+intervals. 
+
+
 
 ```r
 ## 2. Devise a strategy for filling in the missing data
@@ -91,7 +100,7 @@ TotStepsComp <- with(activity.complete,tapply(steps,date,sum,na.rm=TRUE))
 hist(TotStepsComp, main = "Histogram of total steps taken per day (imputed values)",xlab = "Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 The mean and median steps per day are as follows
 
@@ -149,7 +158,7 @@ xyplot(Steps ~ Interval | Day.Type, data = activity.summary,type="l",layout=c(1,
        main="Comparison of average steps during the week and weekend")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 
 

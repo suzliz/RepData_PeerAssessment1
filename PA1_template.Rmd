@@ -48,9 +48,20 @@ cat(c("The interval with the maximum number of steps is",
 
 ## Imputing missing values
 
+1. Calculate and report the number of missing values in the dataset
+
 ```{r}
 ## 1. Calculate and report the number of missing values in the dataset.
 sum(is.na(activity))
+```
+
+The strategy for imputing missing values is to calculate the average value
+for each separate interval of the day (excluding missing values), and to use 
+this series of averages to replace any missing values for the relevant
+intervals. 
+
+
+```{r}
 ## 2. Devise a strategy for filling in the missing data
 int.means <- ave(activity$steps,activity$interval,FUN = function(x) mean(x[!is.na(x)]))
 ## 3. Create a data set that is equal to the original but with missing data filled in 

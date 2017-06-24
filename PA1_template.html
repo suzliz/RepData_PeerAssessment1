@@ -159,9 +159,13 @@ cat(c(&quot;The interval with the maximum number of steps is&quot;,
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
+<ol style="list-style-type: decimal">
+<li>Calculate and report the number of missing values in the dataset</li>
+</ol>
 <pre class="r"><code>## 1. Calculate and report the number of missing values in the dataset.
 sum(is.na(activity))</code></pre>
 <pre><code>## [1] 2304</code></pre>
+<p>The strategy for imputing missing values is to calculate the average value for each separate interval of the day (excluding missing values), and to use this series of averages to replace any missing values for the relevant intervals.</p>
 <pre class="r"><code>## 2. Devise a strategy for filling in the missing data
 int.means &lt;- ave(activity$steps,activity$interval,FUN = function(x) mean(x[!is.na(x)]))
 ## 3. Create a data set that is equal to the original but with missing data filled in 
