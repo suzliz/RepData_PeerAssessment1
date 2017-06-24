@@ -1,25 +1,52 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+title: "Reproducible Research Week 2 Project"
+author: "Suzette Lizamore"
+date: "24 June 2017"
+output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-## Loading and preprocessing the data
+# Course Project 1: Activity Monitoring
 
-
-
-## What is mean total number of steps taken per day?
-
-
-
-## What is the average daily activity pattern?
+## Loading and preprocessing data
+Read in the data set which should be located in the working directory
 
 
+```{r }
+activity <- read.csv("activity.csv")
+summary(activity)
+
+```
+
+## Calculate the mean number of total steps taken per day
+
+```{r}
+## 1. Calculate the number os steps taken per day
+TotSteps <- with(activity,tapply(steps,date,sum,na.rm=TRUE))
+## 2. Plot Histogram
+hist(TotSteps, main = "Histogram of total steps taken per day",xlab = "Number of Steps")
+## 3. Report mean and median
+cat(c("The mean steps per day is", round(mean(TotSteps),digits=4)))
+cat(c("The median steps per day is", round(median(TotSteps),digits=4)))
+```
+
+## What is the average daily pattern?
+
+```{r}
+## 1. Create a time series plot of the average daily activity pattern
+activity$interval <- as.factor(activity$interval)
+InAvSteps <- with(activity,tapply(steps,interval,sum,na.rm=TRUE))
+plot(names(InAvSteps),InAvSteps,type="l",main="Average daily step pattern",xlab="Time of Day",ylab="Average number of steps")
+## 2. Which five minute interval contains the maximum number of steps
+cat(c("The interval with the maximum number of steps is",names(InAvSteps[InAvSteps==max(InAvSteps)]), "with", max(InAvSteps),"steps"))
+```
 
 ## Imputing missing values
 
+```{r}
+## 1. Calculate and report the number of missing values in the dataset.
 
-
-## Are there differences in activity patterns between weekdays and weekends?
+```
